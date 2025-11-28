@@ -59,3 +59,9 @@ sudo systemctl enable docker --now
 Step 4: Check Docker Version.
 
 docker --version
+
+
+
+
+Install the toolkit via [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+so that it is vislsble
