@@ -23,9 +23,13 @@ services:
     volumes:
       - ./ollama-data:/root/.ollama
     restart: unless-stopped
-    runtime: nvidia
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   glances:
     image: nicolargo/glances:latest
