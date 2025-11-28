@@ -5,31 +5,43 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
     ports:
-      - "3000:8080"
+      - "0.0.0.0:3000:8080"
     volumes:
       - ./open-webui-data:/app/backend/data
     environment:
       - WEBUI_NAME=AI Workstation
+      - OLLAMA_BASE_URL=http://ollama:11434
     restart: unless-stopped
+    depends_on:
+      - ollama
 
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
     ports:
-      - "11434:11434"
+      - "0.0.0.0:11434:11434"
     volumes:
       - ./ollama-data:/root/.ollama
     restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   glances:
     image: nicolargo/glances:latest
     container_name: glances-monitor
     ports:
-      - "61208:61208"
+      - "0.0.0.0:61208:61208"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc:/proc:ro
       - /sys:/sys:ro
       - /etc/os-release:/etc/os-release:ro
+    environment:
+      - GLANCES_OPT=-w
     privileged: true
     restart: unless-stopped
