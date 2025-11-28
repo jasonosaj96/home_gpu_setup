@@ -40,5 +40,8 @@ services:
       - /etc/os-release:/etc/os-release:ro
     environment:
       - GLANCES_OPT=-w
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    runtime: nvidia
     privileged: true
     restart: unless-stopped
