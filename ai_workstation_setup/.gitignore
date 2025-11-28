@@ -205,3 +205,13 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Docker runtime data directories
+# These contain models, user data, SSH keys, and other runtime files
+ollama-data/
+open-webui-data/
+
+# Docker volumes and persistent data
+*.db
+*.sqlite
+*.sqlite3
