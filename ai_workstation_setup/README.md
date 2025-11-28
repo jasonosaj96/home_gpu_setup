@@ -43,3 +43,19 @@ cd ai-workstation-setup
 
 # Or start manually
 docker-compose up -d
+
+# Installing docker
+Step 1: Update Software Repositories using the following command on the terminal.
+
+sudo apt update
+sudo-apt-update
+Step 2: Install Docker using the following command
+
+sudo apt install docker.io -y
+sudo-apt-install
+Step 3: Enable and start the docker service by using the following commands.
+
+sudo systemctl enable docker --now
+Step 4: Check Docker Version.
+
+docker --version
