@@ -28,20 +28,42 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
-  glances:
-    image: nicolargo/glances:latest
-    container_name: glances-monitor
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata-monitor
+    hostname: ai-workstation
     ports:
-      - "0.0.0.0:61208:61208"
+      - "0.0.0.0:19999:19999"
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
     volumes:
+      - netdataconfig:/etc/netdata
+      - netdatalib:/var/lib/netdata
+      - netdatacache:/var/cache/netdata
+      - ./netdata.conf:/etc/netdata/netdata.conf:ro
+      - ./nvidia-smi.conf:/etc/netdata/go.d/nvidia_smi.conf:ro
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc:/proc:ro
-      - /sys:/sys:ro
-      - /etc/os-release:/etc/os-release:ro
     environment:
-      - GLANCES_OPT=-w
+      - DOCKER_HOST=/var/run/docker.sock
+      - NETDATA_CLAIM_TOKEN=${NETDATA_CLAIM_TOKEN:-}
+      - NETDATA_CLAIM_URL=https://app.netdata.cloud
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     runtime: nvidia
     privileged: true
     restart: unless-stopped
+
+volumes:
+  netdataconfig:
+  netdatalib:
+  netdatacache:
