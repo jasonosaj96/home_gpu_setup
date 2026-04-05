@@ -1,0 +1,8 @@
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "http://192.168.1.100:1234",
+        "ANTHROPIC_AUTH_TOKEN": "lmstudio",
+        "API_TIMEOUT_MS": 30000,
+        "ANTHROPIC_MODEL": "qwen/qwen3.5-35b-a3b"
+    }
+}

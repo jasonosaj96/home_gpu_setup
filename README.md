@@ -15,13 +15,43 @@ Docker Compose setup for running Open WebUI, Ollama, and Glances monitoring on y
 git clone <your-repo-url>
 cd ai-workstation-setup
 
+# Update ollama if needed
+docker compose pull ollama
+
 # Start all services
 docker-compose up -d
 
 # Check status
 docker-compose ps
+```
 
-Access
+## Managing Ollama Models
+
+### Pull a model
+```bash
+docker exec -it ollama ollama pull <model-name>
+
+# Or using docker compose
+docker compose exec ollama ollama pull <model-name>
+
+# Example: Pull llama3
+docker exec -it ollama ollama pull llama3
+```
+
+### Update Services
+Update all services to latest versions:
+```bash
+docker compose pull
+docker compose up -d
+```
+
+Update Ollama only (if you get a version error):
+```bash
+docker compose pull ollama
+docker compose up -d ollama
+```
+
+## Access
 
 Open WebUI: http://<your-server-ip>:3000
 Glances: http://<your-server-ip>:61208
